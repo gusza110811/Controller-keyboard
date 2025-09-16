@@ -18,7 +18,7 @@ class Controller:
             'y', 'n', 's', 'm', 'w',
             'v', 'f', 'g', 'p', 'b',
             'c', 'k', 'j', 'x', 'z',
-            ' ', '.', ',', ':', 'q',
+            "'", '.', ',', ':', 'q',
         ]
         self.keys = {
             "U":False,
@@ -37,6 +37,17 @@ class Controller:
         while True:
             events:list[inputs.InputEvent] = inputs.get_gamepad()
             for event in events:
+                if event.code == "ABS_HAT0X":
+                    if event.state == 1:
+                        pyautogui.press("right")
+                    if event.state == -1:
+                        pyautogui.press("left")
+                if event.code == "ABS_HAT0Y":
+                    if event.state == 1:
+                        pyautogui.press("down")
+                    if event.state == -1:
+                        pyautogui.press("up")
+
                 if event.code == "BTN_THUMBL":
                     if event.state == 1:
                         self.keys["P"] = True
@@ -47,6 +58,8 @@ class Controller:
                     pyautogui.press('backspace')
                 if event.code == "BTN_SOUTH" and event.state == 1:
                     pyautogui.press('enter')
+                if event.code == "BTN_NORTH" and event.state == 1:
+                    pyautogui.press('space')
 
                 if event.code == "BTN_THUMBR" and event.state == 1:
                     self.write(0)

@@ -11,6 +11,7 @@ class PreviewWindow:
         self.root.geometry("180x180")
         self.root.attributes("-toolwindow", True)
         self.root.attributes("-topmost", True)
+        self.root.resizable = False
 
         self.label = tk.Label(self.root, text="", font=("Consolas", 30))
         self.label.pack(expand=True)
@@ -26,7 +27,7 @@ class PreviewWindow:
                     20 if self.controller.keys["L"] else
                     25 if self.controller.keys["P"] else 0)
             self.label.config(text=f"{self.controller.MAPPING[index+1]}\n{self.controller.MAPPING[index+3]} {self.controller.MAPPING[index]} {self.controller.MAPPING[index+4]}\n{self.controller.MAPPING[index+2]}")
-            time.sleep(0.1)
+            time.sleep(0.05)
     def run(self):
         self.root.mainloop()
 
