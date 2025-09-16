@@ -44,7 +44,9 @@ class Controller:
                         self.keys["P"] = False
                 
                 if event.code == "BTN_WEST" and event.state == 1:
-                    pyautogui.hotkey('backspace')
+                    pyautogui.press('backspace')
+                if event.code == "BTN_SOUTH" and event.state == 1:
+                    pyautogui.press('enter')
 
                 if event.code == "BTN_THUMBR" and event.state == 1:
                     self.write(0)
@@ -92,6 +94,8 @@ class Controller:
                         self.keys["L"] = True
                         self.keys["R"] = False
                         self.keys["D"] = False
+                elif event.code == "ABS_RY" or event.code == "ABS_RX":
+                    ignore = 0
 
                 if (abs(event.state) < 2**14) and (event.code == "ABS_X" or event.code == "ABS_Y"):
                     self.keys["U"] = False
@@ -105,3 +109,4 @@ class Controller:
 
 if __name__ == "__main__":
     controller = Controller()
+    while 1: pass
