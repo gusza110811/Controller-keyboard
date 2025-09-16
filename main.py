@@ -17,7 +17,7 @@ class GnuNotice:
         self.agree = os.path.exists(".agree")
         if self.agree:
             return
-        with open("agree","w") as agree:
+        with open(".agree","w") as agree:
             agree.write("If you choose to stop agreeing to the terms and conditions, you are free to uninstall the software")
         with open("LICENSE") as license:
             self.file = license.read()
