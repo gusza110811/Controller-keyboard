@@ -1,3 +1,6 @@
 .*
 !/.gitignore
 __*__
+*.spec
+dist
+build
