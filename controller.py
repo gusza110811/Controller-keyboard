@@ -1,5 +1,6 @@
 import inputs
 import pyautogui
+import keyboard
 import threading
 
 class Controller:
@@ -160,7 +161,7 @@ class Controller:
         index = id + (5 if self.keys["U"] else 10 if self.keys["R"] else 15 if self.keys["D"] else 20 if self.keys["L"] else 25 if self.keys["P"] else 0)
         index += 30 if self.keys["RB"] else 0
         index += 60 if self.keys["LB"] else 0
-        pyautogui.typewrite(self.MAPPING[index])
+        keyboard.write(self.MAPPING[index])
 
 if __name__ == "__main__":
     controller = Controller()
