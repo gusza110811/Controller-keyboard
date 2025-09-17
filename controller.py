@@ -13,12 +13,34 @@ class Controller:
         # L
         # P
         self.MAPPING = [
+            # no lt/rt
             'e', 'o', 'a', 'i', 'u',
             'l', 't', 'h', 'r', 'd',
             'y', 'n', 's', 'm', 'w',
             'v', 'f', 'g', 'p', 'b',
             'c', 'k', 'j', 'x', 'z',
-            "'", '.', ',', ':', 'q',
+            "'", '.', ',', '-', 'q',
+            # rt
+            'E', 'O', 'A', 'I', 'U',
+            'L', 'T', 'H', 'R', 'D',
+            'Y', 'N', 'S', 'M', 'W',
+            'V', 'F', 'G', 'P', 'B',
+            'C', 'K', 'J', 'X', 'Z',
+            '"', '!', '?', '/', 'Q',
+            # lt
+            '0', '1', '2', '3', '4',
+            '5', '6', '7', '8', '9',
+            '/', '$', '%', '[', ']',
+            '&', '@', '#', '(', ')',
+            ';', '=', ':', '<', '>',
+            '+', '^', '*', '{', '}',
+            # rt+lt
+            'ē', 'ō', 'ā', 'ī', 'ū',
+            '`', '', '', 'brb', 'ok',
+            '\\', '', '', 'pls', 'thx',
+            '~', '', '', 'idk', 'lol',
+            '_', '', '', 'yes', 'no',
+            '|', '', '', 'hi', 'bye',
         ]
         self.keys = {
             "U":False,
@@ -27,16 +49,34 @@ class Controller:
             "D":False,
             "P":False,
 
-            "LT":False,
-            "RT":False,
+            "LB":False,
+            "RB":False,
         }
+        self.plugged = False
         listener.start()
 
     def listen(self):
         ignore = 0
         while True:
-            events:list[inputs.InputEvent] = inputs.get_gamepad()
+            try:
+                events:list[inputs.InputEvent] = inputs.get_gamepad()
+                self.plugged = True
+            except inputs.UnpluggedError:
+                self.plugged = False
+                continue
             for event in events:
+                #print(event.code)
+                if event.code == "BTN_TL":
+                    if event.state == 1:
+                        self.keys['LB'] = True
+                    else:
+                        self.keys['LB'] = False
+                if event.code == "BTN_TR":
+                    if event.state == 1:
+                        self.keys['RB'] = True
+                    else:
+                        self.keys['RB'] = False
+
                 if event.code == "ABS_HAT0X":
                     if event.state == 1:
                         pyautogui.press("right")
@@ -118,7 +158,9 @@ class Controller:
     
     def write(self, id):
         index = id + (5 if self.keys["U"] else 10 if self.keys["R"] else 15 if self.keys["D"] else 20 if self.keys["L"] else 25 if self.keys["P"] else 0)
-        pyautogui.write(self.MAPPING[index])
+        index += 30 if self.keys["RB"] else 0
+        index += 60 if self.keys["LB"] else 0
+        pyautogui.typewrite(self.MAPPING[index])
 
 if __name__ == "__main__":
     controller = Controller()

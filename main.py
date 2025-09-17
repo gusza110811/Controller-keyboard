@@ -41,7 +41,7 @@ class PreviewWindow:
         self.controller = controller
         self.root = tk.Tk()
         self.root.title("Controller Typing")
-        self.root.geometry("180x180")
+        self.root.geometry("200x180")
         self.root.attributes("-toolwindow", True)
         self.root.attributes("-topmost", True)
         self.root.resizable = False
@@ -59,6 +59,8 @@ class PreviewWindow:
                     15 if self.controller.keys["D"] else
                     20 if self.controller.keys["L"] else
                     25 if self.controller.keys["P"] else 0)
+            index += 30 if self.controller.keys["RB"] else 0
+            index += 60 if self.controller.keys["LB"] else 0
             self.label.config(text=f"{self.controller.MAPPING[index+1]}\n{self.controller.MAPPING[index+3]} {self.controller.MAPPING[index]} {self.controller.MAPPING[index+4]}\n{self.controller.MAPPING[index+2]}")
             time.sleep(0.05)
     def run(self):
@@ -71,7 +73,7 @@ if __name__ == "__main__":
     controller = Controller()
     preview = PreviewWindow(controller)
     
-    notice = threading.Thread(target=lambda:GnuNotice(), daemon=False)
+    notice = threading.Thread(target=lambda:GnuNotice(), daemon=True)
     notice.start()
 
     preview.run()
